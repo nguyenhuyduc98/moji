@@ -3,35 +3,28 @@ package org.moji.backend.controller;
 import org.moji.backend.model.User;
 import org.moji.backend.service.UserService;
 import org.springframework.web.bind.annotation.*;
-
-import org.springframework.web.bind.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
-    private final UserService userService;
+    @Autowired
+    private UserService userService;
 
-    public UserController(UserService userService) {
-        this.userService = userService;
+    @PostMapping("/signup")
+    public User signup(@RequestBody User user) {
+        return userService.signup(user);
     }
 
-    @GetMapping("/me")
-    public User getMe() {
-        return new User();
+    @GetMapping("/{username}")
+    public Optional<User> getUserByUsername(@PathVariable String username) {
+        return userService.findByUsername(username);
     }
 
-    @GetMapping("/search")
-    public User searchUser(@RequestParam String username) {
-        return userService.findByUsername(username).orElse(null);
-    }
-
-    @PostMapping("/uploadAvatar")
-    public String uploadAvatar() {
-        return "avatarUrl";
-    }
-
-    @PatchMapping("/me")
-    public User updateProfile(@RequestBody User user) {
-        return user;
+    @GetMapping
+    public List<User> getAllUsers() {
+        return userService.getAllUsers();
     }
 }

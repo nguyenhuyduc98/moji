@@ -3,20 +3,16 @@ package org.moji.backend.service;
 import org.moji.backend.model.User;
 import org.moji.backend.repository.UserRepository;
 import org.springframework.stereotype.Service;
-import java.time.LocalDateTime;
 import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
+import java.util.List;
 
 @Service
 public class UserService {
-    private final UserRepository userRepository;
-
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    @Autowired
+    private UserRepository userRepository;
 
     public User signup(User user) {
-        user.setCreatedAt(LocalDateTime.now());
-        user.setUpdatedAt(LocalDateTime.now());
         return userRepository.save(user);
     }
 
@@ -26,5 +22,9 @@ public class UserService {
 
     public Optional<User> findByEmail(String email) {
         return userRepository.findByEmail(email);
+    }
+
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
     }
 }

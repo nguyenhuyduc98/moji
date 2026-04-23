@@ -1,21 +1,21 @@
 package org.moji.backend.model;
 
-import lombok.Builder;
-import lombok.Data;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
-@Data
-@Builder
-@Document(collection = "friends")
+@Entity
+@Table(name = "friends")
 public class Friend {
     @Id
-    private String id;
-    private String userAId;   // tham chiếu User
-    private String userBId;   // tham chiếu User
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private Long userAId;
+    private Long userBId;
+
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    // getter & setter
+    public Friend() {}
+    // constructor, getter, setter...
 }

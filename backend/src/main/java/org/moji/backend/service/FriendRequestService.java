@@ -3,28 +3,23 @@ package org.moji.backend.service;
 import org.moji.backend.model.FriendRequest;
 import org.moji.backend.repository.FriendRequestRepository;
 import org.springframework.stereotype.Service;
-import java.time.LocalDateTime;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Service
 public class FriendRequestService {
-    private final FriendRequestRepository friendRequestRepository;
-
-    public FriendRequestService(FriendRequestRepository friendRequestRepository) {
-        this.friendRequestRepository = friendRequestRepository;
-    }
+    @Autowired
+    private FriendRequestRepository friendRequestRepository;
 
     public FriendRequest sendRequest(FriendRequest request) {
-        request.setCreatedAt(LocalDateTime.now());
-        request.setUpdatedAt(LocalDateTime.now());
         return friendRequestRepository.save(request);
     }
 
-    public List<FriendRequest> getRequestsForUser(String userId) {
+    public List<FriendRequest> getRequestsForUser(Long userId) {
         return friendRequestRepository.findByToUserId(userId);
     }
 
-    public List<FriendRequest> getRequestsFromUser(String userId) {
+    public List<FriendRequest> getRequestsFromUser(Long userId) {
         return friendRequestRepository.findByFromUserId(userId);
     }
 }

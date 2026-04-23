@@ -1,34 +1,25 @@
 package org.moji.backend.model;
 
-import lombok.Builder;
-import lombok.Data;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 
-@Data
-@Builder
-@Document(collection = "conversations")
+@Entity
+@Table(name = "conversations")
 public class Conversation {
     @Id
-    private String id;
-    private List<String> participantIds; // danh sách User ID
-    private String type; // "direct" hoặc "group"
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    private String groupName;
-    private String groupCreatedBy; // User ID
+    private String type; // direct or group
+    private String name;
 
-    private String lastMessageContent;
-    private LocalDateTime lastMessageCreatedAt;
-    private String lastMessageSenderId;
-
-    private List<String> seenByUserIds;
-    private Map<String, Integer> unreadCounts; // userId -> số tin chưa đọc
+    @ElementCollection
+    private List<Long> participantIds;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    // getter & setter
+    public Conversation() {}
+    // constructor, getter, setter...
 }

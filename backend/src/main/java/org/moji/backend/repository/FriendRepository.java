@@ -1,10 +1,11 @@
 package org.moji.backend.repository;
 
 import org.moji.backend.model.Friend;
-import org.springframework.data.mongodb.repository.MongoRepository;
 import java.util.List;
 
-public interface FriendRepository extends MongoRepository<Friend, String> {
-    List<Friend> findByUserAId(String userAId);
-    List<Friend> findByUserBId(String userBId);
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface FriendRepository extends JpaRepository<Friend, Long> {
+    List<Friend> findByUserAId(Long userAId);
+    List<Friend> findByUserBId(Long userBId);
 }

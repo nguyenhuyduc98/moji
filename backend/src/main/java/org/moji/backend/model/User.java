@@ -1,49 +1,44 @@
 package org.moji.backend.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
-
-@NoArgsConstructor
-@AllArgsConstructor
-@Data
-@Document(collection = "users")
+@Entity
+@Table(name = "users")
 public class User {
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // auto increment
+    private Long id;
 
-    private String username;       // unique
-    private String hashedPassword; // lưu bằng BCrypt
+    @Column(unique = true, nullable = false)
+    private String username;
+
+    @Column(nullable = false)
+    private String hashedPassword;
+
     private String displayName;
-    private String email;          // unique
+    private String email;
     private String avatarUrl;
     private String bio;
     private String phone;
+
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-//    public User() {}
-//
-//    public User(String username, String hashedPassword, String displayName,
-//                String email, String avatarUrl, String bio, String phone) {
-//        this.username = username;
-//        this.hashedPassword = hashedPassword;
-//        this.displayName = displayName;
-//        this.email = email;
-//        this.avatarUrl = avatarUrl;
-//        this.bio = bio;
-//        this.phone = phone;
-//    }
+    public User() {}
 
-//    // Getter & Setter cho phone
-//    public String getPhone() {
-//        return phone;
-//    }
-//    public void setPhone(String phone) {
-//        this.phone = phone;
-//    }
+    public User(String username, String hashedPassword, String displayName,
+                String email, String avatarUrl, String bio, String phone) {
+        this.username = username;
+        this.hashedPassword = hashedPassword;
+        this.displayName = displayName;
+        this.email = email;
+        this.avatarUrl = avatarUrl;
+        this.bio = bio;
+        this.phone = phone;
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    // getter & setter...
 }

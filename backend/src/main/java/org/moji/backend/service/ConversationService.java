@@ -1,31 +1,31 @@
 package org.moji.backend.service;
 
 import org.moji.backend.model.Conversation;
+import org.moji.backend.model.ConversationParticipant;
+import org.moji.backend.repository.ConversationParticipantRepository;
 import org.moji.backend.repository.ConversationRepository;
 import org.springframework.stereotype.Service;
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Service
 public class ConversationService {
-    private final ConversationRepository conversationRepository;
+    @Autowired
+    private ConversationRepository conversationRepository;
 
-    public ConversationService(ConversationRepository conversationRepository) {
-        this.conversationRepository = conversationRepository;
-    }
+    @Autowired
+    private ConversationParticipantRepository participantRepository;
 
     public Conversation createConversation(Conversation conversation) {
-        conversation.setCreatedAt(LocalDateTime.now());
-        conversation.setUpdatedAt(LocalDateTime.now());
         return conversationRepository.save(conversation);
     }
 
-    public List<Conversation> getConversationsForUser(String userId) {
-        return conversationRepository.findByParticipantIdsContaining(userId);
+    public void addParticipant(Long conversationId, Long userId) {
+        ConversationParticipant participant = new ConversationParticipant(conversationId, userId);
+        participantRepository.save(participant);
     }
 
-    public Optional<Conversation> getConversationById(String id) {
-        return conversationRepository.findById(id);
+    public List<ConversationParticipant> getParticipants(Long conversationId) {
+        return participantRepository.findByConversationId(conversationId);
     }
 }

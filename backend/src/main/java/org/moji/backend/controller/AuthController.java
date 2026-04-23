@@ -1,36 +1,23 @@
 package org.moji.backend.controller;
 
+import org.moji.backend.dto.SignupRequest;
 import org.moji.backend.model.User;
-import org.moji.backend.service.UserService;
+import org.moji.backend.service.AuthService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import org.springframework.web.bind.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
-    private final UserService userService;
-
-    public AuthController(UserService userService) {
-        this.userService = userService;
-    }
+    @Autowired
+    private AuthService authService;
 
     @PostMapping("/signup")
-    public User signup(@RequestBody User user) {
-        return userService.signup(user);
-    }
-
-    @PostMapping("/signin")
-    public String signin(@RequestParam String username,
-                         @RequestParam String password) {
-        return "accessToken";
-    }
-
-    @PostMapping("/signout")
-    public String signout() {
-        return "Signed out";
-    }
-
-    @PostMapping("/refresh")
-    public String refreshToken(@RequestParam String refreshToken) {
-        return "newAccessToken";
+    public ResponseEntity<User> signup(@RequestBody SignupRequest request) {
+        User user = authService.signup(request);
+        return ResponseEntity.ok(user);
     }
 }
