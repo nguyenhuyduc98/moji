@@ -1,9 +1,12 @@
 package org.moji.backend.model;
 
 import jakarta.persistence.*;
+import lombok.Data;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Data
 @Entity
 @Table(name = "conversations")
 public class Conversation {

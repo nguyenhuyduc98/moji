@@ -13,9 +13,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/signup")
-    public User signup(@RequestBody User user) {
-        return userService.signup(user);
+    @PostMapping("/register")
+    public User register(@RequestBody User user) {
+        return userService.register(user);
     }
 
     @GetMapping("/{username}")

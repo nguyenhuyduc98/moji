@@ -1,7 +1,9 @@
 package org.moji.backend.model;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
+@Data
 @Entity
 @Table(name = "conversation_participants")
 public class ConversationParticipant {
